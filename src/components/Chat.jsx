@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import ChatNav from "./ChatNav";
 import SystemChatItem from "./SystemChatItem";
@@ -9,13 +8,13 @@ import Login from "../components/ChatLogin";
 import { FaArrowDown } from "react-icons/fa";
 
 function Chat() {
+  const [isLoading, setIsLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
   const scrollRef = useRef(null);
   const [chatMessages, setChatMessages] = useState([]);
   const { getItem } = useAuthToken();
   const { token, chatid } = getItem();
   const [dataItem, setData] = useState();
-  
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -31,7 +30,7 @@ function Chat() {
 
       try {
         const response = await fetch(
-          "http://127.0.0.1:5000/api/v1/user/profile",
+          `${import.meta.env.VITE_API_URL}/user/profile`,
           {
             method: "GET",
             headers: {
@@ -42,8 +41,8 @@ function Chat() {
         );
 
         if (response.status === 200) {
-          const dataRespo = await response.json();
-          setData(dataRespo);
+          const { userProfile } = await response.json();
+          setData(userProfile);
         }
       } catch (error) {
         console.log(error);
@@ -55,17 +54,22 @@ function Chat() {
 
   useEffect(() => {
     const fetchChatMessages = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(
-          `http://127.0.0.1:5000/api/v1/chat/${chatid}/messages`
+          `${import.meta.env.VITE_API_URL}/chat/${chatid}/messages`
         );
+
         if (response.ok) {
           const data = await response.json();
           setChatMessages(data?.messages);
+          setIsLoading(false);
         } else {
+          setIsLoading(false);
           throw new Error("Failed to fetch chat messages");
         }
       } catch (error) {
+        setIsLoading(false);
         console.error(error);
       }
     };
@@ -89,7 +93,7 @@ function Chat() {
     }
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/chat/${chatid}/geminichat`,
+        `${import.meta.env.VITE_API_URL}/chat/${chatid}/geminichat`,
         {
           method: "POST",
           headers: {
@@ -133,6 +137,13 @@ function Chat() {
                     "Hello! Welcome to our mental health support chat. I am a mindful assistant here to listen and provide support on any mental health concerns you may have. Please feel free to share your thoughts and experiences, and I will do my best to assist you on your journey towards well-being."
                   }
                 />
+                {isLoading && (
+                  <div>
+                    <p className="text-slate-400 text-xl m-12">
+                      Loading messages...
+                    </p>
+                  </div>
+                )}
                 <FaArrowDown className="w-8 h-8 animate-bounce font-bold absolute left-[50%] top-[70%]" />
               </div>
             ) : null}
@@ -164,7 +175,7 @@ function Chat() {
                 <button
                   type="submit"
                   id="userSendButton"
-                  className="inline-flex items-center justify-center rounded-lg px-9 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-300 focus:outline-none"
+                  className="inline-flex items-center justify-center rounded-lg px-9 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:opacity-70 focus:outline-none bg-gradient-to-r from-blue-500 to-violet-500"
                 >
                   <span>Send</span>
                   <svg

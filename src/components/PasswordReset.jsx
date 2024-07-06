@@ -23,7 +23,7 @@ function PasswordReset() {
     }
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/reset-password/${token}`,
+        `${import.meta.env.VITE_API_URL}/reset-password/${token}`,
         {
           method: "POST",
           headers: {

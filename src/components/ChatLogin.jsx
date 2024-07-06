@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import image from "../assets/images/virtualA.svg";
 import Donut from "./Donut";
 import useAuthToken from "../../hooks/useAuth";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 function Login() {
+  const [isOpen, setIsOpen] = useState(false);
   const { getItem } = useAuthToken();
   const { chatid } = getItem();
 
@@ -23,32 +25,92 @@ function Login() {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        }
+      );
       if (response?.status == 200) {
         toast.success("logged in successfully", { id: notification });
         console.log("logged in successfully");
         const data = await response?.json();
         localStorage.setItem("innerAuth", data?.access_token);
-        window.location.href = `/chat/${chatid}`;
-      }
+        const id = await getUser(data?.access_token);
+        console.log(id);
+        const uid = await getUserChat(id);
+        window.location.href = `/chat/${uid}`;
+      } 
       if (response?.status == 401) {
-        toast.error("logged in failed unauthorized", { id: notification });
+        toast.error("Login failed unauthorized", { id: notification });
         console.log("login failed 401");
         window.location.href = "/chatsignup";
       }
     } catch (error) {
       toast.error(error, { id: notification });
       console.error(error);
+      
     }
+  };
+  const getUser = async (token) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/profile`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response?.status === 200) {
+        const { userId } = await response.json();
+        console.log(userId);
+        return userId;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getUserChat = async (userId) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/chat/getuserchat`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+          }),
+        }
+      );
+      console.log(response);
+      if (response?.status === 200) {
+        const data = await response.json();
+        console.log("data", data[0]._id);
+        localStorage.setItem("chatId", data[0]?._id);
+        return data[0]?._id;
+        // console.log(data[0]._id);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const showPassword = () => {
+    setIsOpen(!isOpen);
   };
   // console.log(chatid);
   return (
@@ -108,7 +170,7 @@ function Login() {
                   />
                 </div>
 
-                <div className="flex flex-col mb-1">
+                <div className="flex flex-col mb-1 relative">
                   <label
                     htmlFor="password"
                     className="text-sm text-left text-gray-900 font-bold mb-2"
@@ -117,13 +179,29 @@ function Login() {
                   </label>
                   <input
                     onChange={(e) => setPassword(e.target.value)}
-                    type="password"
+                    type={!isOpen ? "password" : "text"}
                     autoComplete="none"
                     required={true}
                     className="appearance-none rounded-none relative block w-full py-2 px-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md mb-2 focus:outline-none focus:ring-indigo-500
                  focus:border-indigo-500 focus:z-10 small:text-sm"
                     placeholder="Password"
                   />
+                  <div
+                    className="absolute right-2 top-[29px] z-[999] bg-white p-2 px-6"
+                    onClick={showPassword}
+                  >
+                    {isOpen ? (
+                      <FaRegEye
+                        className="text-blue-700 font-bold  h-6
+                    w-6"
+                      />
+                    ) : (
+                      <FaRegEyeSlash
+                        className=" text-blue-700 font-bold  h-6
+                    w-6"
+                      />
+                    )}
+                  </div>
                 </div>
                 {/* input code end */}
               </div>

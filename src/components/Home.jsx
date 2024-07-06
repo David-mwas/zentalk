@@ -15,7 +15,7 @@ const Home = () => {
           className="w-full flex-col justify-center items-center text-center  md:w-[600px] ;
 ]"
         >
-          <h2 className="text-2xl mb-2 font-bold text-blue-500">
+          <h2 className="text-2xl mb-2 font-bold text-blue-500 ">
             About ZenTalk
           </h2>
           <p className="w-full text-left text-slate-500 text-lg">

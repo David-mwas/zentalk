@@ -2,17 +2,20 @@ import React from "react";
 import { FaInstagram } from "react-icons/fa";
 function Footer() {
   return (
-    <section id="contact" className="w-screen sticky bg-[#6495ED47]  p-6 gap-4 grid grid-cols-1 md:grid-cols-3">
+    <section
+      id="contact"
+      className="w-screen sticky bg-[#6495ED47]  p-6 gap-4 grid grid-cols-1 md:grid-cols-3 bg-gradient-to-r from-blue-500 to-violet-500"
+    >
       <div>
         <h3 className="font-bold text-lg">Contacts</h3>
-        <p className="text-gray-600">Phone No: +254795209160</p>
-        <p className="text-gray-600">Email :zentalk@gmail.com</p>
+        <p className="text-gray-300">Phone No: +254795209160</p>
+        <p className="text-gray-300">Email :zentalk@gmail.com</p>
       </div>
       <div>
         <h3 className="font-bold text-lg md:text-center">Social links</h3>
-        <div className="flex md:justify-center md:items-center text-gray-600 md:flex-col gap-4">
+        <div className="flex md:justify-center md:items-center text-gray-300 md:flex-col gap-4">
           <span>
-            <FaInstagram/>
+            <FaInstagram />
           </span>
           <span>X</span>
           <span>IG</span>
@@ -43,7 +46,7 @@ function Footer() {
             required={true}
             placeholder="message here..."
           ></textarea>
-          <button className=" font-semibold text-white py-2 bg-blue-500 rounded-lg w-[250px] hover:rounded-xl hover:bg-blue-400 hover:px-4 mt-4">
+          <button className=" font-semibold text-white py-2 bg-blue-400 rounded-lg w-[250px] hover:rounded-xl hover:bg-blue-300 hover:px-4 mt-4">
             Submit
           </button>
         </form>

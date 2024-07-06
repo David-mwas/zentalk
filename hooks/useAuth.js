@@ -14,6 +14,7 @@ const useAuthToken = () => {
     if (typeof window !== "undefined") {
       // Remove the token from local storage
       localStorage.removeItem("innerAuth");
+      localStorage.removeItem("chatId");
     }
   };
 

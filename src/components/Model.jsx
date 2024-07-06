@@ -31,7 +31,7 @@ function Model({ setIsModelOpen, fetchChatMessages }) {
     formData.append("image", imageFile);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/articles`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/articles`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -130,7 +130,7 @@ function Model({ setIsModelOpen, fetchChatMessages }) {
               type="submit"
               id="uploadButton"
               onClick={createPost}
-              className="mt-4 inline-flex items-center px-12 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="mt-4 inline-flex items-center px-12 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-gradient-to-r from-blue-500 to-violet-500"
             >
               Create Article
             </button>

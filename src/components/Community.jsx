@@ -59,7 +59,7 @@ const Community = () => {
         </div>
       </div>
       <a href="/community/articles">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-20 rounded-l-full rounded-r-full mx-auto block mt-8">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-20 rounded-l-full rounded-r-full mx-auto block mt-8 bg-gradient-to-r from-blue-500 to-violet-500">
           Explore
         </button>
       </a>

@@ -21,7 +21,7 @@ function CommunityPage() {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/api/v1/articles/${id}`
+          `${import.meta.env.VITE_API_URL}/articles/${id}`
         );
         if (response.ok) {
           setLoading(false);

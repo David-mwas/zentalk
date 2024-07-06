@@ -1,8 +1,9 @@
-
-
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import image from "../assets/images/virtualA.svg";
+import Donut from "./Donut";
+
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 // import useAuthToken from "../../../hooks/useAuth";
 function Login() {
   // const { getItem } = useAuthToken();
@@ -13,6 +14,7 @@ function Login() {
   //     loc
   //   }
   // })
+  const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
@@ -24,16 +26,19 @@ function Login() {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        }
+      );
       if (response.status == 200) {
         toast.success("Logged in successfully", { id: notify });
         console.log("logged in successfully");
@@ -51,10 +56,16 @@ function Login() {
       console.error(error);
     }
   };
+  const showPassword = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <>
       <Toaster />
       <div className="flex  w-screen item-center justify-center md:flex-row p-12   h-screen flex-col">
+        <div className="absolute left-[-100px] top-[-200px] z-[-1]">
+          <Donut />
+        </div>
         <div className="flex items-center justify-center text-center w-full h-full gap-8">
           <div className="hidden md:flex h-[400px] rounded-2xl">
             <img
@@ -98,16 +109,32 @@ function Login() {
                   />
                 </div>
 
-                <div>
+                <div className="relative">
                   <input
                     onChange={(e) => setPassword(e.target.value)}
-                    type="password"
+                    type={!isOpen ? "password" : "text"}
                     autoComplete="none"
                     required
                     className="appearance-none rounded-none relative block w-full py-2 px-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md mb-2 focus:outline-none focus:ring-indigo-500
                  focus:border-indigo-500 focus:z-10 small:text-sm"
                     placeholder="Password"
                   />
+                  <div
+                    className="absolute right-2 top-[1px] z-[999] bg-white p-2 px-6"
+                    onClick={showPassword}
+                  >
+                    {isOpen ? (
+                      <FaRegEye
+                        className="text-blue-700 font-bold  h-6
+                    w-6"
+                      />
+                    ) : (
+                      <FaRegEyeSlash
+                        className=" text-blue-700 font-bold  h-6
+                    w-6"
+                      />
+                    )}
+                  </div>
                 </div>
                 {/* input code end */}
               </form>
@@ -142,6 +169,9 @@ function Login() {
                 </button>
               </div>
             </div>
+          </div>
+          <div className="absolute right-[-100px] bottom-[-200px] z-[-1]">
+            <Donut />
           </div>
         </div>
       </div>

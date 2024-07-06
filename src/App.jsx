@@ -10,6 +10,7 @@ import CommunityLogin from "./components/CommunityLogin";
 import Articles from "./components/Articles";
 import History from "./components/History";
 import NotFound from "./components/NotFound";
+import CommunitySignUp from "./components/CommunitySignUp";
 function App() {
   return (
     <Router>
@@ -21,6 +22,7 @@ function App() {
         <Route path="/reset-password" element={<PasswordReset />} />
         <Route path="/community/articles" element={<Articles />} />
         <Route path="/communitylogin" element={<CommunityLogin />} />
+        <Route path="/communitysignup" element={<CommunitySignUp />} />
         <Route path="/community/articles/:id" element={<CommunityPage />} />
         <Route path="/history" element={<History />} />
         <Route path="*" element={<NotFound />} />

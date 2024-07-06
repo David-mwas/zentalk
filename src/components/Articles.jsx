@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import useAuthToken from "../../hooks/useAuth";
 import { FaPlus } from "react-icons/fa";
@@ -12,11 +11,10 @@ function Articles() {
   const { chatid, token } = getItem();
   const [articles, setArticles] = useState();
   const [data, setData] = useState();
-   const [isOpen, setIsOpen] = useState(false);
-   const openNav = () => {
-     setIsOpen(!isOpen);
-   };
-
+  const [isOpen, setIsOpen] = useState(false);
+  const openNav = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
     const getUser = async () => {
@@ -26,7 +24,7 @@ function Articles() {
 
       try {
         const response = await fetch(
-          "http://127.0.0.1:5000/api/v1/user/profile",
+          `${import.meta.env.VITE_API_URL}/user/profile`,
           {
             method: "GET",
             headers: {
@@ -37,9 +35,9 @@ function Articles() {
         );
 
         if (response.status == 200) {
-          const dataRespo = await response.json();
-          setData(dataRespo);
-          console.log(dataRespo);
+           const { userProfile } = await response.json();
+          setData(userProfile);
+          console.log(userProfile);
         }
       } catch (error) {
         console.log(error);
@@ -59,7 +57,7 @@ function Articles() {
     setLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/articles`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/articles`);
       if (response.ok) {
         setLoading(false);
 
@@ -91,7 +89,7 @@ function Articles() {
     <>
       <Toaster />
       <div className="relative">
-        <header className="w-screen flex justify-between items-center gap-2 px-4 md:px-20 py-4 fixed z-[999] h-[80px] shadow-lg bg-blue-500 text-white">
+        <header className="w-screen flex justify-between items-center gap-2 px-4 md:px-20 py-4 fixed z-[999] h-[80px] shadow-lg bg-blue-500 text-white bg-gradient-to-r from-blue-500 to-violet-500">
           <div className="flex items-center">
             <a href="/">
               <h1 className="text-white font-bold text-3xl">ZenTalk</h1>
@@ -118,7 +116,7 @@ function Articles() {
           </nav>
           {isOpen && (
             <div
-              className="md:hidden flex bg-blue-500 justify-center gap-[50px] font-semibold absolute w-[50vw] h-[100vh] flex-col items-start px-8 top-[90px] left-[-20px] shadow-md rounded-r-[30px] transition-transform ease-in-out duration-700 z-[888] text-white"
+              className="md:hidden flex bg-blue-500 justify-center gap-[50px] font-semibold absolute w-[50vw] h-[100vh] flex-col items-start px-8 top-[90px] left-[-20px] shadow-md rounded-r-[30px] transition-transform ease-in-out duration-700 z-[888] text-white bg-gradient-to-b from-blue-500 to-violet-500"
               onClick={openNav}
             >
               {/* <a href="/history">history</a> */}
@@ -151,7 +149,7 @@ function Articles() {
           <div className="flex items-center justify-between w-full">
             <h2 className="text-3xl font-semibold text-blue-500">Articles</h2>
             <button
-              className="bg-blue-500 px-4 py-3 text-white font-bold rounded-xl shadow-lg shadow-black flex items-center gap-2 hover:px-5"
+              className="bg-gradient-to-r from-blue-500 to-violet-500 px-4 py-3 text-white font-bold rounded-xl shadow-lg shadow-black flex items-center gap-2 hover:px-5 Get "
               onClick={handleOpenModel}
             >
               <FaPlus />
@@ -159,9 +157,13 @@ function Articles() {
             </button>
           </div>
           <div className="px-[10px] w-full mt-6 grid grid-cols-1 md:grid-cols-3 items-center gap-6 ">
-            {articles?.map((article, index) => (
-              <SingleArticle key={index} article={article} />
-            ))}
+            {articles ? (
+              articles?.map((article, index) => (
+                <SingleArticle key={index} article={article} />
+              ))
+            ) : (
+              <div>No articles Found create</div>
+            )}
           </div>
         </div>
         {isModelOpen && (

@@ -11,7 +11,7 @@ function ChatNav({ name }) {
     window.location.href = "/chatlogin";
   };
   return (
-    <header className="w-screen flex justify-between items-center gap-2 px-4 md:px-20 py-4 fixed z-[999] h-[80px] shadow-lg bg-blue-500">
+    <header className="w-screen flex justify-between items-center gap-2 px-4 md:px-20 py-4 fixed z-[999] h-[80px] shadow-lg bg-gradient-to-r from-blue-500 to-violet-500">
       <div className="flex items-center">
         <a href="/">
           <h1 className="text-white font-bold text-3xl">ZenTalk</h1>
@@ -31,7 +31,7 @@ function ChatNav({ name }) {
       </nav>
       {isOpen && (
         <div
-          className="md:hidden flex bg-blue-500 justify-center gap-[50px] font-semibold absolute w-[50vw] h-[100vh] flex-col items-start px-8 top-[90px] left-[-20px] shadow-md rounded-r-[30px] transition-transform ease-in-out duration-700 z-[888] text-white"
+          className="md:hidden flex bg-blue-500 bg-gradient-to-b from-blue-500 to-violet-500 justify-center gap-[50px] font-semibold absolute w-[50vw] h-[100vh] flex-col items-start px-8 top-[90px] left-[-20px] shadow-md rounded-r-[30px] transition-transform ease-in-out duration-700 z-[888] text-white"
           onClick={openNav}
         >
           {/* <a href="/history">history</a> */}

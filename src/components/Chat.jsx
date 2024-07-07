@@ -3,6 +3,7 @@ import ChatNav from "./ChatNav";
 import SystemChatItem from "./SystemChatItem";
 import UserChatitem from "./UserChatitem";
 import useAuthToken from "../../hooks/useAuth";
+import useTypingEffect from "../../hooks/useTypingEffect";
 import toast, { Toaster } from "react-hot-toast";
 import Login from "../components/ChatLogin";
 import { FaArrowDown } from "react-icons/fa";
@@ -15,7 +16,10 @@ function Chat() {
   const { getItem } = useAuthToken();
   const { token, chatid } = getItem();
   const [dataItem, setData] = useState();
-
+  const txt = useTypingEffect(
+    "Hello! Welcome to our mental health support chat. I am a mindful assistant here to listen and provide support on any mental health concerns you may have. Please feel free to share your thoughts and experiences, and I will do my best to assist you on your journey towards well-being.",
+    10
+  );
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: "smooth" });
@@ -132,11 +136,7 @@ function Chat() {
           <div className="flex flex-1 flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch pt-[130px] md:px-[150px] mb-4">
             {chatMessages.length < 1 ? (
               <div>
-                <SystemChatItem
-                  text={
-                    "Hello! Welcome to our mental health support chat. I am a mindful assistant here to listen and provide support on any mental health concerns you may have. Please feel free to share your thoughts and experiences, and I will do my best to assist you on your journey towards well-being."
-                  }
-                />
+                <SystemChatItem text={txt} />
                 {isLoading && (
                   <div>
                     <p className="text-slate-400 text-xl m-12">

@@ -30,9 +30,12 @@ function LandingPage() {
           >
             {useTypingEffect("Be gentle and kind to your Mind", 20)}
           </p>
-          <a href={`/chat/${chatid}`} className="md:mt-[40px] mt-[20px]">
-            <button className="flex gap-2 justify-center items-center px-[120px] py-4 bg-blue-500 rounded-full text-white font-semibold hover:bg-blue-400 hover:px-[140px] w-full text-center bg-gradient-to-r from-blue-500 to-violet-500 hover:gap-3">
-              <span>Get Started </span>
+          <a
+            href={`/chat/${chatid}`}
+            className="w-full flex items-center   md:mt-[40px] mt-[20px] md:items-start"
+          >
+            <button className="flex gap-2 justify-center items-center  py-4 bg-blue-500 rounded-full text-white font-semibold hover:bg-blue-400  w-full text-center bg-gradient-to-r from-blue-500 to-violet-500 hover:gap-3  flex-row md:w-[60%] hover:opacity-85">
+              <span className="">Get Started </span>
               <span>
                 {" "}
                 <FaArrowAltCircleRight />{" "}

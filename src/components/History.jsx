@@ -35,7 +35,7 @@ function page() {
         );
 
         if (response.status == 200) {
-            const { userProfile } = await response.json();
+          const { userProfile } = await response.json();
           setData(userProfile);
           console.log(userProfile);
         }
@@ -64,10 +64,7 @@ function page() {
           <a href={`/chat/${chatid}`}>chat</a>
 
           <h3 className="text-lg p-2 rounded-lg px-4">
-            Hi,{" "}
-            <span className="font-semibold">
-              {data?.username}
-            </span>
+            Hi, <span className="font-semibold">{data?.username}</span>
           </h3>
           <button
             onClick={handleLogout}
@@ -78,14 +75,12 @@ function page() {
         </nav>
         {isOpen && (
           <div
-            className="md:hidden flex bg-blue-500 justify-center gap-[50px] font-semibold absolute w-[50vw] h-[100vh] flex-col items-start px-8 top-[90px] left-[-20px] shadow-md rounded-r-[30px] transition-transform ease-in-out duration-700 text-white bg-gradient-to-b from-blue-500 to-violet-500"
+            className="md:hidden flex bg-blue-500 justify-center gap-[50px] font-semibold absolute w-[75vw] h-[100vh] flex-col items-start px-12 top-[90px] left-[-20px] shadow-md rounded-r-[30px] transition-transform ease-in-out duration-700 text-white bg-gradient-to-b from-blue-500 to-violet-500"
             onClick={openNav}
           >
-            <h3 className="text-lg p-2 rounded-lg">
+            <h3 className="text-lg  rounded-lg">
               Hi,{" "}
-              <span className="font-semibold">
-                {data?.username}
-              </span>
+              <span className="font-semibold capitalize">{data?.username}</span>
             </h3>
             <a href="/community/articles">articles</a>
             <a href={`/chat/${chatid}`}>chat</a>

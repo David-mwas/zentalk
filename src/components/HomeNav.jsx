@@ -34,7 +34,7 @@ const HomeNavbar = () => {
         </div>
         {isOpen && (
           <div
-            className="md:hidden flex bg-blue-500 justify-center gap-[50px] font-semibold absolute w-[50vw] h-[100vh] flex-col items-start px-8 top-[60px] left-[-20px] shadow-md rounded-r-[30px] transition-transform ease-in-out duration-700 z-[888] bg-gradient-to-b from-blue-500 to-violet-500"
+            className="md:hidden flex bg-blue-500 justify-center gap-[50px] font-semibold absolute w-[75vw] h-[100vh] flex-col items-start px-12 top-[60px] left-[-20px] shadow-md rounded-r-[30px] transition-transform ease-in-out duration-700 z-[888] bg-gradient-to-b from-blue-500 to-violet-500"
             onClick={openNav}
           >
             <a href="#about" className="text-white hover:text-gray-200">

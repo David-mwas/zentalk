@@ -15,6 +15,7 @@ function Chat() {
   const [chatMessages, setChatMessages] = useState([]);
   const { getItem } = useAuthToken();
   const { token, chatid } = getItem();
+  console.log(token,chatid);
   const [dataItem, setData] = useState();
   const txt = useTypingEffect(
     "Hello! Welcome to our mental health support chat. I am a mindful assistant here to listen and provide support on any mental health concerns you may have. Please feel free to share your thoughts and experiences, and I will do my best to assist you on your journey towards well-being.",
@@ -162,20 +163,20 @@ function Chat() {
           </div>
           <div className="shadow-lg shadow-black px-4 pt-4 py-4 sm:mb-0 bg-[#e9f1ff] md:px-[150px]">
             <form className="relative flex" onSubmit={handleSubmit}>
-              <input
+              <textarea
                 onChange={(e) => setPrompt(e.target.value)}
                 value={prompt}
                 id="userSendMessage"
                 type="text"
                 placeholder="Write your message prompt!"
                 required={true}
-                className="w-full border border-gray-500 focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-4 bg-gray-200 rounded-md py-3"
-              />
+                className="w-full border border-gray-500 focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 px-4 bg-gray-200 rounded-lg py-3"
+              ></textarea>
               <div className="absolute right-0 items-center inset-y-0 flex gap-2">
                 <button
                   type="submit"
                   id="userSendButton"
-                  className="inline-flex items-center justify-center rounded-lg px-9 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:opacity-70 focus:outline-none bg-gradient-to-r from-blue-500 to-violet-500"
+                  className="inline-flex items-center justify-center rounded-lg px-9 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:opacity-70 focus:outline-none bg-gradient-to-r from-blue-500 to-violet-500 mr-2"
                 >
                   <span>Send</span>
                   <svg

@@ -7,10 +7,11 @@ function SuccessPasswordReset({ email }) {
       <div className="w-full text-center justify-center items-center flex flex-col">
         <MdOutlineMarkEmailRead size={56} className="text-blue-500" />
         <p className="text-2xl tracking-widest font-bold"> Check your email</p>
-        <p className="my-5 md:my-7 px-5">
+        <p className="my-5 md:my-7 px-5 text-sm">
           Weve sent an instructions on how to reset your password to{" "}
           <span className="font-semibold text-lg">{email}</span>
         </p>
+        <p>You may close this tab</p>
       </div>
     </div>
   );

@@ -1,137 +1,109 @@
 import toast, { Toaster } from "react-hot-toast";
+import React, { useState } from "react";
+import SuccessPasswordReset from "../components/SuccessPasswordReset";
+import ErrorPasswordReset from "../components/ErrorPasswordReset";
 
-import React, { useEffect, useState } from "react";
-import Donut from "./Donut";
-import image from "../assets/images/virtualA.svg";
-import useAuthToken from "../../hooks/useAuth";
 function PasswordReset() {
-  const [repeatPassword, setRepeatPassword] = useState();
-  const [password, setPassword] = useState();
-  const { getItem } = useAuthToken();
-  const { token } = getItem();
-
-  const handlePasswordReset = async (e) => {
+  const [email, setEmail] = useState();
+  const [isSuccess, setIsSuccess] = useState(false);
+  const handleSubmitEmail = async (e) => {
     e.preventDefault();
+
     const notification = toast.loading("Authenticating...");
-    if (!repeatPassword || !password) {
+    if (!email) {
       toast.error("Inputs below are required", { id: notification });
       return;
     }
-    if (repeatPassword !== password) {
-      toast.error("Passwords do not match", { id: notification });
-      return;
-    }
+
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/reset-password/${token}`,
+        `http://localhost:5000/api/v1/auth/forget-password`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            password: password,
+            email: email,
           }),
         }
       );
       if (response.status == 200) {
-        toast.success("password reset successfully", { id: notification });
+        setIsSuccess(true);
+        toast.success("change password link sent to the user email", {
+          id: notification,
+        });
         console.log(await response.json());
         console.log("logged in successfully");
       }
-      if (response.status !== 200) {
-        toast.error("Failed to reset password!!", { id: notification });
+      if (response.status == 400) {
+        toast.error("Failed to reset password!!, Invalid credentials!!", {
+          id: notification,
+        });
         console.log("Invalid credentials!!", response);
         return;
       }
 
       const data = await response.json();
-      window.location.href = `/chat/${chatid}`;
+      console.log(data);
+      if (data?.error) {
+        toast.error(data?.error, { id: notification });
+      }
+
+      // window.location.href = `/chat/${chatid}`;
     } catch (error) {
-      toast.error(error, { id: notification });
       console.error(error);
     }
   };
   return (
-    <>
+    <div className="flex  w-screen items-center justify-center md:flex-row p-12    h-screen flex-col">
       <Toaster />
-      <div className="flex  w-screen item-center justify-center md:flex-row p-12   h-screen flex-col">
-        <div className="flex items-center justify-center text-center w-full h-full gap-8">
-          <div className="absolute left-[-100px] top-[-200px] z-[-1]">
-            <Donut />
-          </div>
-          <div className="hidden md:flex h-[400px] rounded-2xl">
-            <img
-              src={image}
-              alt="anxiety img"
-              width={400}
-              height={400}
-              className="object-cover  object-top rounded-2xl"
-            />
-          </div>
-
-          <div className="w-[100%] md:w-[30%] ">
-            <div className="w-full">
-              <h2 className="mt-4 text-center md:text-2xl font-extrabold w-full text-indigo-700 text-xl">
-                Reset your password
-              </h2>
+      {isSuccess ? (
+        <SuccessPasswordReset email={email} />
+      ) : (
+        <>
+          {" "}
+          {/* <ErrorPasswordReset /> */}
+          <form className="bg-white p-2 md:p-4 rounded-lg md:rounded-xl md:min-w-[350px]  justify-center flex flex-col px-md">
+            <p className="text-blue-500 font-bold text-xl tracking-widest">
+              Forgot your Password?
+            </p>
+            <p className="my-5 md:my-7">
+              Your password will be reset by email.
+            </p>
+            <div className="flex flex-col mb-1">
+              <label
+                htmlFor="email"
+                className="text-sm text-left text-gray-900 font-bold mb-2"
+              >
+                Email
+              </label>
+              <input
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                autoComplete="none"
+                required
+                className="appearance-none rounded-none relative block w-full py-2 px-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md mb-2 focus:outline-none focus:ring-indigo-500
+                 focus:border-indigo-500 focus:z-10 small:text-sm"
+                placeholder="Enter your email address"
+              />
             </div>
-            <form className="flex flex-col w-full mt-8 space-y-6">
-              <div className="w-full rounded-md shadow-sm -space-y-px">
-                {/* input code start */}
-
-                <div className="flex flex-col mb-1">
-                  <label
-                    htmlFor="password"
-                    className="text-sm text-left text-gray-900 font-bold mb-2"
-                  >
-                    New password
-                  </label>
-                  <input
-                    onChange={(e) => setRepeatPassword(e.target.value)}
-                    type="password"
-                    autoComplete="none"
-                    required
-                    className="appearance-none rounded-none relative block w-full py-2 px-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md mb-2 focus:outline-none focus:ring-indigo-500
-                 focus:border-indigo-500 focus:z-10 small:text-sm"
-                    placeholder="Enter new password"
-                  />
-                </div>
-
-                <div className="flex flex-col mb-1">
-                  <label
-                    htmlFor="repeatpassword"
-                    className="text-sm text-left text-gray-900 font-bold mb-2"
-                  >
-                    Repeat Password
-                  </label>
-                  <input
-                    onChange={(e) => setPassword(e.target.value)}
-                    type="password"
-                    autoComplete="none"
-                    required
-                    className="appearance-none rounded-none relative block w-full py-2 px-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md mb-2 focus:outline-none focus:ring-indigo-500
-                 focus:border-indigo-500 focus:z-10 small:text-sm"
-                    placeholder="Repeat new Password"
-                  />
-                </div>
-              </div>
-              <div>
-                <button
-                  onClick={handlePasswordReset}
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-md rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Reset Password
-                </button>
-              </div>
-            </form>
-          </div>
-          <div className="absolute right-[-100px] bottom-[-200px] z-[-1]">
-            <Donut />
-          </div>
-        </div>
-      </div>
-    </>
+            <button
+              onClick={handleSubmitEmail}
+              className="w-full bg-blue-500 py-2 rounded-md text-white"
+            >
+              Next
+            </button>
+            <a
+              href="/chatlogin"
+              className="text-blue-500 w-full text-center mt-3"
+            >
+              Back to login
+            </a>
+          </form>
+        </>
+      )}
+    </div>
   );
 }
 

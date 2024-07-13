@@ -7,7 +7,7 @@ function ErrorPasswordReset() {
       <div className="w-full text-center justify-center items-center flex flex-col">
         <MdOutlineReportGmailerrorred size={56} className="text-red-500" />
         <p className="text-2xl tracking-widest font-bold">
-          {" "}
+        
           An error occurred.
         </p>
         <p>

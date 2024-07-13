@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import useAuthToken from "../../hooks/useAuth";
 import { FaUser } from "react-icons/fa";
@@ -7,6 +6,7 @@ import { useParams } from "react-router-dom";
 
 function CommunityPage() {
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
   const { getItem } = useAuthToken();
   const { chatid, token } = getItem();
   //   const chatid = localStorage?.getItem("chatId");
@@ -56,16 +56,18 @@ function CommunityPage() {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/articles/${id}`
         );
-        if (response.ok) {
+        if (response?.ok) {
           setLoading(false);
 
           const data = await response.json();
           console.log(data);
           setArticle(data);
         } else {
+          setIsLoading(false);
           throw new Error("Failed to fetch chat messages");
         }
       } catch (error) {
+        setIsLoading(false);
         console.error(error);
       }
     };
@@ -156,22 +158,20 @@ function CommunityPage() {
           </div>
         </div>
       ) : (
-        <div className="bg-red-400 w-full flex flex-col gap-2  md:gap-4 pt-[100px] px-[20px] space-x-4 md:px-[80px] p-8">
-          <p className="text-slate-500 text-4xl">
-            404, Not Found
-            <br /> <br />
-            No articles for now login/register to post an article
-          </p>
-        </div>
+        isLoading && (
+          <div>
+            <p className="text-slate-400 text-xl m-12">Loading articles...</p>
+          </div>
+        )
       )}
       {article ? (
         <div className="pt-[10px] p-[20px] md:px-20 md:pt-[10px]">
           <div className="w-full  flex  flex-col md:flex-row">
-            <div className="bg-gray-400 h-[350px]">
+            <div className=" h-[350px] w-full md:w-[400px]">
               <img
                 src={article?.image}
                 alt="image"
-                className="object-cover rounded-lg md:w-[400px] h-full hover:scale-105"
+                className="object-cover rounded-lg  h-full hover:scale-105 w-full"
               />
             </div>
 

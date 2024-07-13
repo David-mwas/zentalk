@@ -4,7 +4,7 @@ import { convertDateTime } from "../../hooks/useDateTime";
 function SingleArticle({ article }) {
   console.log(article);
   return (
-    <div className="bg-white rounded-lg w-full shadow-sm shadow-black h-[280px] hover:scale-105">
+    <div className="bg-white rounded-lg w-full shadow-sm shadow-black hover:scale-105">
       <div className="bg-gray-300 h-[180px]">
         <img
           src={article?.image}

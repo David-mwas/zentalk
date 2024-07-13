@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAuthToken from "../../hooks/useAuth";
 import { FaPlus } from "react-icons/fa";
+import img from "../assets/images/anxiety.jpg";
 import SingleArticle from "./SingleArticle";
 import Model from "./Model";
 import toast, { Toaster } from "react-hot-toast";
@@ -15,7 +16,28 @@ function Articles() {
   const openNav = () => {
     setIsOpen(!isOpen);
   };
-
+  const articleData = [
+    {
+      title: "Anxiety",
+      _id: "99999999999jjuju89juuu",
+      description:
+        " Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, fugiat dolores et ab quos eveniet hic sed aspernatur deleniti quaerat.",
+      category: "Anxiety",
+      createdBy: "David",
+      time: Date.now(),
+      image: img,
+    },
+    {
+      title: "Anxiety",
+      _id: "89ijuy777hjuuu77",
+      description:
+        " Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, fugiat dolores et ab quos eveniet hic sed aspernatur deleniti quaerat.y",
+      category: "Anxiety",
+      createdBy: "David",
+      time: Date.now(),
+      image: img,
+    },
+  ];
   useEffect(() => {
     const getUser = async () => {
       if (!token) {
@@ -35,7 +57,7 @@ function Articles() {
         );
 
         if (response.status == 200) {
-           const { userProfile } = await response.json();
+          const { userProfile } = await response.json();
           setData(userProfile);
           console.log(userProfile);
         }
@@ -58,15 +80,21 @@ function Articles() {
 
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/articles`);
-      if (response.ok) {
+      if (response.status == 200) {
         setLoading(false);
 
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         setArticles(data);
-      } else {
-        throw new Error("Failed to fetch chat messages");
       }
+      // if (response.status !== 200) {
+      //   setLoading(false);
+      //   data = articleData;
+
+      //   // console.log(data);
+      //   setArticles(data);
+      // }
+      // setArticles(articleData);
     } catch (error) {
       console.error(error);
     }

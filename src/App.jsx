@@ -11,6 +11,7 @@ import Articles from "./components/Articles";
 import History from "./components/History";
 import NotFound from "./components/NotFound";
 import CommunitySignUp from "./components/CommunitySignUp";
+import ForgetPassword from "./components/ForgetPassword";
 function App() {
   return (
     <Router>
@@ -20,6 +21,8 @@ function App() {
         <Route path="/chatsignup" element={<SignUp />} />
         <Route path="/chatlogin" element={<ChatLogin />} />
         <Route path="/reset-password" element={<PasswordReset />} />
+        <Route path="/reset-password/:token" element={<ForgetPassword />} />
+
         <Route path="/community/articles" element={<Articles />} />
         <Route path="/communitylogin" element={<CommunityLogin />} />
         <Route path="/communitysignup" element={<CommunitySignUp />} />

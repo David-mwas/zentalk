@@ -2,7 +2,8 @@ import toast, { Toaster } from "react-hot-toast";
 import React, { useState } from "react";
 import SuccessPasswordReset from "../components/SuccessPasswordReset";
 import ErrorPasswordReset from "../components/ErrorPasswordReset";
-
+import Donut from "./Donut";
+import image from "../assets/images/virtualA.svg";
 function PasswordReset() {
   const [email, setEmail] = useState();
   const [isSuccess, setIsSuccess] = useState(false);
@@ -11,13 +12,13 @@ function PasswordReset() {
 
     const notification = toast.loading("Authenticating...");
     if (!email) {
-      toast.error("Inputs below are required", { id: notification });
+      toast.error("Email is required", { id: notification });
       return;
     }
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/auth/forget-password`,
+        `${import.meta.env.VITE_API_URL}/auth/forget-password`,
         {
           method: "POST",
           headers: {
@@ -56,7 +57,19 @@ function PasswordReset() {
     }
   };
   return (
-    <div className="flex  w-screen items-center justify-center md:flex-row p-12    h-screen flex-col">
+    <div className="flex  w-screen items-center justify-center md:flex-row p-8    h-screen flex-col">
+      <div className="absolute top-[-200px] left-[-100px] z-[-1]">
+        <Donut />
+      </div>
+      <div className="hidden md:flex h-[400px] rounded-2xl mr-6">
+        <img
+          src={image}
+          alt="virtualAssistant img"
+          width={400}
+          height={200}
+          className="object-cover  object-top rounded-2xl"
+        />
+      </div>
       <Toaster />
       {isSuccess ? (
         <SuccessPasswordReset email={email} />
@@ -64,7 +77,7 @@ function PasswordReset() {
         <>
           {" "}
           {/* <ErrorPasswordReset /> */}
-          <form className="bg-white p-2 md:p-4 rounded-lg md:rounded-xl md:min-w-[350px]  justify-center flex flex-col px-md">
+          <form className="w-full bg-white p-6 space-y-4 md:p-4 rounded-lg md:rounded-xl md:max-w-[380px]  justify-center flex flex-col px-md">
             <p className="text-blue-500 font-bold text-xl tracking-widest">
               Forgot your Password?
             </p>
@@ -83,7 +96,7 @@ function PasswordReset() {
                 type="email"
                 autoComplete="none"
                 required
-                className="appearance-none rounded-none relative block w-full py-2 px-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md mb-2 focus:outline-none focus:ring-indigo-500
+                className="appearance-none rounded-none relative block w-full py-2 px-2 border border-gray-400 placeholder-gray-500 text-gray-900 rounded-t-md mb-2 focus:outline-none focus:ring-indigo-500
                  focus:border-indigo-500 focus:z-10 small:text-sm"
                 placeholder="Enter your email address"
               />
@@ -103,6 +116,9 @@ function PasswordReset() {
           </form>
         </>
       )}
+      <div className="absolute bottom-[-200px] right-[-100px] z-[-1]">
+        <Donut />
+      </div>
     </div>
   );
 }

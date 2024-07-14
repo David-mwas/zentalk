@@ -18,9 +18,10 @@ export default function ForgetPassword() {
     // const notify = toast.loading("verifying user...");
     try {
       const data = await fetch(
-        `http://localhost:5000/api/v1/auth/reset-password?token=${token}`
+        `${import.meta.env.VITE_API_URL}/auth/reset-password?token=${token}`
       );
       if (data?.status == 200) {
+        setError(false);
         toast.success("verified");
         const response = await data?.json();
         setEmail(response?.email);
@@ -34,6 +35,7 @@ export default function ForgetPassword() {
         console.log("from dara", response);
         return response;
       }
+      setError(true);
       return response;
       // Return the response data if needed
     } catch (error) {
@@ -48,7 +50,7 @@ export default function ForgetPassword() {
     <div className="">
       <Toaster />
       {!isError ? (
-        <ResetPassword token={token} email={email}/>
+        <ResetPassword token={token} email={email} isError={isError} />
       ) : (
         <div>
           <div className="bg-slate-800 w-full  h-screen flex justify-center items-center text-white flex-col gap-2 space-y-4 px-4">

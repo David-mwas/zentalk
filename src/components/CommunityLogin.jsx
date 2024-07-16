@@ -44,7 +44,7 @@ function Login() {
         console.log("logged in successfully");
         const data = await response.json();
         localStorage.setItem("innerAuth", data?.access_token);
- const id = await getUser(data?.access_token);
+        const id = await getUser(data?.access_token);
         console.log(id);
         const uid = await getUserChat(id);
         window.location.href = "/community/articles";
@@ -58,55 +58,55 @@ function Login() {
       console.error(error);
     }
   };
-    const getUser = async (token) => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/user/profile`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response?.status === 200) {
-          const { userId } = await response.json();
-          console.log(userId);
-          return userId;
+  const getUser = async (token) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/profile`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } catch (error) {
-        console.log(error);
-      }
-    };
+      );
 
-    const getUserChat = async (userId) => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/chat/getuserchat`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              userId,
-            }),
-          }
-        );
-        console.log(response);
-        if (response?.status === 200) {
-          const data = await response.json();
-          console.log("data", data[0]._id);
-          localStorage.setItem("chatId", data[0]?._id);
-          return data[0]?._id;
-          // console.log(data[0]._id);
-        }
-      } catch (error) {
-        console.error(error);
+      if (response?.status === 200) {
+        const { userId } = await response.json();
+        console.log(userId);
+        return userId;
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getUserChat = async (userId) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/chat/getuserchat`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+          }),
+        }
+      );
+      console.log(response);
+      if (response?.status === 200) {
+        const data = await response.json();
+        console.log("data", data[0]._id);
+        localStorage.setItem("chatId", data[0]?._id);
+        return data[0]?._id;
+        // console.log(data[0]._id);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const showPassword = () => {
     setIsOpen(!isOpen);
   };
@@ -202,7 +202,7 @@ function Login() {
                 </div>
                 <div className="text-sm">
                   <a
-                    href="#"
+                    href="/reset-password"
                     className="font-medium text-indigo-600 hover:text-indigo-300 "
                   >
                     Forgot Password?

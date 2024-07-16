@@ -1,4 +1,5 @@
 import React from "react";
+
 import { FaUser } from "react-icons/fa";
 import { convertDateTime } from "../../hooks/useDateTime";
 function SingleArticle({ article }) {
@@ -23,7 +24,9 @@ function SingleArticle({ article }) {
           </p>
         </div>
         <div>
-          <p className="text-blue-500 font-semibold pt-2 ">{article?.title}</p>
+          <p className="text-blue-500 font-semibold pt-2 capitalize">
+            {article?.title}
+          </p>
           <p className="text-sm font-semibold">
             {convertDateTime(article?.time)}
           </p>

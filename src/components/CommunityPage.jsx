@@ -3,9 +3,11 @@ import useAuthToken from "../../hooks/useAuth";
 import { FaUser } from "react-icons/fa";
 import { convertDateTime } from "../../hooks/useDateTime";
 import { useParams } from "react-router-dom";
-
+import { splitTextIntoParagraphs } from "../../hooks/useParagraph";
+// var parText=
 function CommunityPage() {
   const { id } = useParams();
+
   const [isLoading, setIsLoading] = useState(false);
   const { getItem } = useAuthToken();
   const { chatid, token } = getItem();
@@ -80,6 +82,10 @@ function CommunityPage() {
     clearAuthToken();
     window.location.href = "/communitylogin";
   };
+
+  // const paragraphs = splitTextIntoParagraphs();
+  const formattedText = splitTextIntoParagraphs(article?.description);
+  console.log(formattedText);
   return (
     <div>
       <header className="w-screen flex justify-between items-center gap-2 px-4 md:px-20 py-4 fixed z-[999] h-[80px] shadow-lg bg-blue-500 text-white">
@@ -140,7 +146,7 @@ function CommunityPage() {
       {article ? (
         <div className="w-full flex flex-col gap-2  md:gap-4 pt-[100px] px-[20px] space-x-4 md:px-[80px]">
           <div>
-            <p className="text-blue-500 font-semibold pt-2 text-2xl">
+            <p className="text-blue-500 font-semibold pt-2 text-2xl capitalize">
               {article?.title}
             </p>
             <p className="text-sm font-semibold">
@@ -175,8 +181,15 @@ function CommunityPage() {
               />
             </div>
 
-            <div className="px-2 md:py-0 py-6 w-full md:w-[600px] md:ml-[60px]">
-              <p className="text-xl">{article?.description}</p>
+            <div className="gap-6 flex flex-col px-2 md:py-0 py-6 w-full md:w-[600px] md:ml-[60px]">
+              {formattedText.split("\n\n").map((paragraph, index) => (
+                <p
+                  key={index}
+                  clasName="text-base leading-relaxed font-sans text-gray-800 "
+                >
+                  {paragraph}
+                </p>
+              ))}
             </div>
           </div>
         </div>

@@ -5,8 +5,8 @@ import { convertDateTime } from "../../hooks/useDateTime";
 function SingleArticle({ article }) {
   console.log(article);
   return (
-    <div className="bg-white rounded-lg w-full shadow-sm shadow-black hover:scale-105">
-      <div className="bg-gray-300 h-[180px]">
+    <article className="bg-white rounded-lg w-full shadow-sm shadow-black hover:scale-105 ">
+      <div className="bg-gray-300 h-[200px]">
         <img
           src={article?.image}
           alt="image"
@@ -18,16 +18,16 @@ function SingleArticle({ article }) {
           <FaUser className="w-8 h-8 text-gray-500" />
           <p className="text-blue-500 ">
             by{" "}
-            <span className="capitalize font-semibold">
+            <span className="capitalize font-semibold text-lg">
               {article?.createdBy}
             </span>
           </p>
         </div>
         <div>
-          <p className="text-blue-500 font-semibold pt-2 capitalize">
+          <p className="text-blue-500 font-semibold pt-2 capitalize text-2xl">
             {article?.title}
           </p>
-          <p className="text-sm font-semibold">
+          <p className="text-sm font-semibold m-2">
             {convertDateTime(article?.time)}
           </p>
         </div>
@@ -40,7 +40,7 @@ function SingleArticle({ article }) {
           </span>
         </p>
       </div>
-    </div>
+    </article>
   );
 }
 

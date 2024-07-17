@@ -15,7 +15,12 @@ function PasswordReset() {
       toast.error("Email is required", { id: notification });
       return;
     }
-
+    const emailRegex =
+      /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if (!emailRegex.test(email)) {
+      toast.error(email + " is invalid email address", { id: notification });
+      return;
+    }
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/auth/forget-password`,
@@ -53,6 +58,7 @@ function PasswordReset() {
 
       // window.location.href = `/chat/${chatid}`;
     } catch (error) {
+      toast.error("Error", { id: notification });
       console.error(error);
     }
   };
@@ -77,7 +83,7 @@ function PasswordReset() {
         <>
           {" "}
           {/* <ErrorPasswordReset /> */}
-          <form className="w-full bg-white p-6 space-y-4 md:p-4 rounded-lg md:rounded-xl md:max-w-[380px]  justify-center flex flex-col px-md">
+          <form className="w-full bg-gray-200 p-6 space-y-4 md:p-4 rounded-lg md:rounded-xl md:max-w-[380px]  justify-center flex flex-col px-md">
             <p className="text-blue-500 font-bold text-xl tracking-widest">
               Forgot your Password?
             </p>

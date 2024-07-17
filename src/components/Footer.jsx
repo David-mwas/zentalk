@@ -1,5 +1,5 @@
 import React from "react";
-import { FaInstagram } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 function Footer() {
   return (
     <section
@@ -13,13 +13,17 @@ function Footer() {
       </div>
       <div>
         <h3 className="font-bold text-lg md:text-center">Social links</h3>
-        <div className="flex md:justify-center md:items-center text-gray-300 md:flex-col gap-4">
-          <span>
-            <FaInstagram />
-          </span>
-          <span>X</span>
-          <span>IG</span>
-          <span>FB</span>
+        <div className="flex md:justify-center items-center text-gray-300 md:flex-col gap-4 flex-row p-4 transition-all duration-75 ease-in-out">
+          <a href="">
+            <FaInstagram className="w-8 h-8 hover:scale-105 hover:text-white" />
+          </a>
+          <a href="">
+            <FaTwitter className="w-8 h-8 hover:scale-105 hover:text-white" />
+          </a>
+
+          <a href="">
+            <FaFacebook className="w-8 h-8 hover:scale-105 hover:text-white" />
+          </a>
         </div>
       </div>
       <div className="w-full">

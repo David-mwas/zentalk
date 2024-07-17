@@ -25,6 +25,12 @@ function Login() {
       toast.error("email and password are required!", { id: notify });
       return;
     }
+     const emailRegex =
+       /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+     if (!emailRegex.test(email)) {
+       toast.error(email + " is invalid email address", { id: notify });
+       return;
+     }
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/auth/login`,
@@ -54,7 +60,7 @@ function Login() {
         console.log("logged in successfully");
       }
     } catch (error) {
-      toast.error(error, { id: notify });
+      toast.error("Error", { id: notify });
       console.error(error);
     }
   };

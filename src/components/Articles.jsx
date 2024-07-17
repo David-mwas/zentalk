@@ -95,7 +95,9 @@ function Articles() {
       //   setArticles(data);
       // }
       // setArticles(articleData);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error(error);
     }
   };
@@ -113,10 +115,11 @@ function Articles() {
     clearAuthToken();
     window.location.href = "/communitylogin";
   };
+  console.log(loading);
   return (
     <>
       <Toaster />
-      <div className="relative">
+      <div className="relative h-screen">
         <header className="w-screen flex justify-between items-center gap-2 px-4 md:px-20 py-4 fixed z-[999] h-[80px] shadow-lg bg-blue-500 text-white bg-gradient-to-r from-blue-500 to-violet-500">
           <div className="flex items-center">
             <a href="/">
@@ -185,12 +188,27 @@ function Articles() {
             </button>
           </div>
           <div className="px-[10px] w-full mt-6 grid grid-cols-1 md:grid-cols-3 items-center gap-6 ">
-            {articles ? (
-              articles?.map((article, index) => (
-                <SingleArticle key={index} article={article} />
-              ))
+            {!loading ? (
+              articles ? (
+                articles?.map((article, index) => (
+                  <a href={`/community/articles/${article?._id}`}>
+                    {" "}
+                    <SingleArticle key={index} article={article} />
+                  </a>
+                ))
+              ) : (
+                <div>
+                  <p className="text-lg text-slate-600 font-semibold">
+                    No articles Found create
+                  </p>
+                </div>
+              )
             ) : (
-              <div>No articles Found create</div>
+              <>
+                <p className="text-lg text-slate-600 font-semibold">
+                  Loading articles...
+                </p>
+              </>
             )}
           </div>
         </div>
@@ -203,6 +221,9 @@ function Articles() {
           </div>
         )}
       </div>
+      <footer className="w-full px-4 py-2 mt-4 text-center text-gray-500 text-sm ">
+        <p>ZenTalk AI 2024. All rights reserved.</p>
+      </footer>
     </>
   );
 }

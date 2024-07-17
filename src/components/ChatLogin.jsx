@@ -24,6 +24,12 @@ function Login() {
       toast.error("email and password are required", { id: notification });
       return;
     }
+    const emailRegex =
+      /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if (!emailRegex.test(email)) {
+      toast.error(email + " is invalid email address", { id: notification });
+      return;
+    }
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/auth/login`,
@@ -47,16 +53,15 @@ function Login() {
         console.log(id);
         const uid = await getUserChat(id);
         window.location.href = `/chat/${uid}`;
-      } 
+      }
       if (response?.status == 401) {
         toast.error("Login failed unauthorized", { id: notification });
         console.log("login failed 401");
         window.location.href = "/chatsignup";
       }
     } catch (error) {
-      toast.error(error, { id: notification });
+      toast.error("Error", { id: notification });
       console.error(error);
-      
     }
   };
   const getUser = async (token) => {

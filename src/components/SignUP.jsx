@@ -20,6 +20,12 @@ const SignUp = () => {
       toast.error("All fields are required", { id: notification });
       return;
     }
+     const emailRegex =
+       /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+     if (!emailRegex.test(email)) {
+       toast.error(email + " is invalid email address", { id: notification });
+       return;
+     }
     if (password !== confirmPassword) {
       // setPassword("");
       // setConfirmPassword("");
@@ -75,7 +81,7 @@ const SignUp = () => {
         window.location.href = "/chatlogin";
       }
     } catch (error) {
-      toast.error(error, {
+      toast.error("Error", {
         id: notification,
       });
       console.error(error);

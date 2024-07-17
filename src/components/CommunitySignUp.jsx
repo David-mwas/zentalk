@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import image from "../assets/images/virtualA.svg";
+import toast, { Toaster } from "react-hot-toast";
 import Donut from "./Donut";
 const SignUp = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,13 +10,47 @@ const SignUp = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+  const [passwordError, setPasswordError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const notification = toast.loading("signing you up ...");
+    if (!email || !password || !userName || !confirmPassword) {
+      toast.error("All fields are required", { id: notification });
+      return;
+    }
+    const emailRegex =
+      /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if (!emailRegex.test(email)) {
+      toast.error(email + " is invalid email address", { id: notification });
+      return;
+    }
     if (password !== confirmPassword) {
+      // setPassword("");
+      // setConfirmPassword("");
+      toast.error("passwords do not match", {
+        id: notification,
+      });
+      console.log("passwords do not match");
+      return;
+    }
+
+    // Password validation
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+    if (!passwordRegex.test(password)) {
       setPassword("");
       setConfirmPassword("");
-      console.log("passwords do not match");
+      setPasswordError(
+        "Password must contain at least one uppercase letter, one lowercase letter, one digit, and be at least 8 characters long."
+      );
+      toast.error(
+        "Password must contain at least one uppercase letter, one lowercase letter, one digit, and be at least 8 characters long.",
+        {
+          id: notification,
+        }
+      );
+      console.error(passwordError);
+
       return;
     }
 
@@ -37,10 +72,16 @@ const SignUp = () => {
         }
       );
       console.log(response);
-      if (response.status === 200) {
+      if (response?.status === 200) {
+        toast.success("Registered successfully", {
+          id: notification,
+        });
         window.location.href = "/communitylogin";
       }
     } catch (error) {
+      toast.error("Error", {
+        id: notification,
+      });
       console.error(error);
     }
   };
@@ -53,6 +94,7 @@ const SignUp = () => {
 
   return (
     <div className="flex w-screen item-center justify-center md:flex-row p-12 h-screen flex-col">
+      <Toaster />
       <div className="absolute top-[-200px] left-[-100px] z-[-1]">
         <Donut />
       </div>

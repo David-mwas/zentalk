@@ -55,9 +55,9 @@ function Login() {
         window.location.href = `/chat/${uid}`;
       }
       if (response?.status == 401) {
-        toast.error("Login failed unauthorized", { id: notification });
+        toast.error("Wrong user credentials", { id: notification });
         console.log("login failed 401");
-        window.location.href = "/chatsignup";
+        // window.location.href = "/chatsignup";
       }
     } catch (error) {
       toast.error("Error", { id: notification });

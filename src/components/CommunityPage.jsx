@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAuthToken from "../../hooks/useAuth";
 import { FaUser } from "react-icons/fa";
+import image from "../assets/images/zen2.png";
 import { convertDateTime } from "../../hooks/useDateTime";
 import { useParams } from "react-router-dom";
 import { splitTextIntoParagraphs } from "../../hooks/useParagraph";
@@ -91,9 +92,10 @@ function CommunityPage() {
       <header className="w-screen flex justify-between items-center gap-2 px-4 md:px-20 py-4 fixed z-[999] h-[80px] shadow-lg bg-blue-500 text-white">
         <div className="flex items-center">
           <a href="/">
-            <h1 className="text-white font-bold text-3xl">ZenTalk</h1>
+           <img src={image} alt="Logo" className="mr-8" width={200} height={0}/>
+            {/* <h1 className="text-white font-bold text-3xl">ZenTalk</h1> */}
           </a>
-          {/* <img src="/innerglow.png" alt="Logo" className="mr-2" width={200} height={0}/> */}
+         
         </div>
         <nav className="hidden md:flex justify-between items-center gap-4 md:gap-20 capitalize">
           <a href={`/community/articles`}>Articles</a>

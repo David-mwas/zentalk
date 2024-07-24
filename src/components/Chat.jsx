@@ -13,9 +13,9 @@ function Chat() {
   const [prompt, setPrompt] = useState("");
   const scrollRef = useRef(null);
   const [chatMessages, setChatMessages] = useState([]);
-  const { getItem } = useAuthToken();
+  const { getItem, clearAuthToken } = useAuthToken();
   const { token, chatid } = getItem();
-  console.log(token,chatid);
+  // console.log(token,chatid);
   const [dataItem, setData] = useState();
   const txt = useTypingEffect(
     "Hello! Welcome to our mental health support chat. I am a mindful assistant here to listen and provide support on any mental health concerns you may have. Please feel free to share your thoughts and experiences, and I will do my best to assist you on your journey towards well-being.",
@@ -48,6 +48,10 @@ function Chat() {
         if (response.status === 200) {
           const { userProfile } = await response.json();
           setData(userProfile);
+        }
+        if (response.status === 401) {
+          clearAuthToken();
+          // window.location.href = "/chatlogin";
         }
       } catch (error) {
         console.log(error);
@@ -90,8 +94,8 @@ function Chat() {
       toast.error("Prompt should not be empty!", { id: notification });
       return;
     }
-    if (prompt.length < 4) {
-      toast.error("Prompt should be greater than 4 characters!", {
+    if (prompt.length < 2) {
+      toast.error("Prompt should be greater than 2 characters!", {
         id: notification,
       });
       return;
@@ -170,15 +174,37 @@ function Chat() {
                 type="text"
                 placeholder="Write your message prompt!"
                 required={true}
-                className="w-full border border-gray-500 focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 px-4 bg-gray-200 rounded-lg py-3"
+                className="w-full border border-gray-500 focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 px-4 bg-gray-200 rounded-lg py-3  md:pr-[120px] pr-[60px]"
               ></textarea>
               <div className="absolute right-0 items-center inset-y-0 flex gap-2">
                 <button
                   type="submit"
                   id="userSendButton"
-                  className="inline-flex items-center justify-center rounded-lg px-9 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:opacity-70 focus:outline-none bg-gradient-to-r from-blue-500 to-violet-500 mr-2"
+                  className={`md:inline-flex items-center justify-center rounded-lg px-9 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:opacity-70 focus:outline-none ${
+                    prompt.trim().length >= 2
+                      ? "bg-gradient-to-r from-blue-500 to-violet-500"
+                      : "bg-gray-500"
+                  } mr-2 hidden`}
                 >
                   <span>Send</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="h-6 w-6 ml-2 transform rotate-90"
+                  >
+                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                  </svg>
+                </button>
+                <button
+                  type="submit"
+                  id="userSendButton"
+                  className={`inline-flex items-center justify-center rounded-lg px-2 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:opacity-70 focus:outline-none ${
+                    prompt.trim().length >= 2
+                      ? "bg-gradient-to-r from-blue-500 to-violet-500"
+                      : "bg-gray-500"
+                  }  mr-2 md:hidden`}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"

@@ -12,10 +12,10 @@ const Home = () => {
       <div className="bg-[#6495ED43] w-full flex flex-col justify-center items-center mt-12 p-4">
         <section
           id="about"
-          className="w-full flex-col justify-center items-center text-center  md:w-[600px] ;
+          className="w-full flex-col justify-center items-center text-center  md:w-[1200px] p-8;
 ]"
         >
-          <h2 className="text-2xl mb-2 font-bold text-blue-500 ">
+          <h2 className="text-2xl mb-6 font-bold text-blue-500 ">
             About ZenTalk
           </h2>
           <p className="w-full text-left text-slate-500 text-lg">

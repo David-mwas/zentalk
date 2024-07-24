@@ -3,11 +3,11 @@ import React from "react";
 const Community = () => {
   return (
     <div className=" p-8 rounded-lg shadow-md">
-      <h2 className=" flex  justify-center items-center text-2xl font-bold mb-4 text-blue-500">
+      <h2 className=" flex  justify-center items-center text-2xl font-bold mb-6 text-blue-500">
         Community
       </h2>
-      <div className="mb-4">
-        <p className="text-slate-500 text-lg">
+      <div className="mb-4  flex justify-center items-center ">
+        <p className="text-slate-500 text-lg md:w-[1200px]">
           The ZenTalk community serves as a nurturing ecosystem where
           individuals come together to support, inspire, and uplift each other
           on their mental health journeys.Users can connect with like-minded

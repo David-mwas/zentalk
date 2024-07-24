@@ -5,6 +5,7 @@ import {
   InfiniteMovingCardsPrevious7Days,
   InfiniteMovingCardsToday,
 } from "../components/MovingCard";
+import image from "../assets/images/zen2.png";
 import useAuthToken from "../../hooks/useAuth";
 
 function page() {
@@ -39,6 +40,10 @@ function page() {
           setData(userProfile);
           console.log(userProfile);
         }
+        if (response.status === 401) {
+          clearAuthToken();
+          //  window.location.href = "/communitylogin";
+        }
       } catch (error) {
         console.log(error);
       }
@@ -55,9 +60,10 @@ function page() {
       <header className="w-screen flex justify-between items-center gap-2 px-4 md:px-20 py-4 fixed z-[9999] h-[80px] shadow-lg bg-blue-500 bg-gradient-to-r from-blue-500 to-violet-500">
         <div className="flex items-center">
           <a href="/">
-            <h1 className="text-white font-bold text-3xl">ZenTalk</h1>
+           <img src={image} alt="Logo" className="mr-8" width={200} height={0}/>
+            {/* <h1 className="text-white font-bold text-3xl">ZenTalk</h1> */}
           </a>
-          {/* <img src="/innerglow.png" alt="Logo" className="mr-2" width={200} height={0}/> */}
+         
         </div>
         <nav className="justify-between items-center gap-4 md:gap-20 capitalize hidden md:flex text-white font-bold">
           <a href="/community/articles">articles</a>

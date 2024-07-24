@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAuthToken from "../../hooks/useAuth";
 import { FaPlus } from "react-icons/fa";
 import img from "../assets/images/anxiety.jpg";
+import image from "../assets/images/zen2.png";
 import SingleArticle from "./SingleArticle";
 import Model from "./Model";
 import toast, { Toaster } from "react-hot-toast";
@@ -16,28 +17,28 @@ function Articles() {
   const openNav = () => {
     setIsOpen(!isOpen);
   };
-  const articleData = [
-    {
-      title: "Anxiety",
-      _id: "99999999999jjuju89juuu",
-      description:
-        " Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, fugiat dolores et ab quos eveniet hic sed aspernatur deleniti quaerat.",
-      category: "Anxiety",
-      createdBy: "David",
-      time: Date.now(),
-      image: img,
-    },
-    {
-      title: "Anxiety",
-      _id: "89ijuy777hjuuu77",
-      description:
-        " Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, fugiat dolores et ab quos eveniet hic sed aspernatur deleniti quaerat.y",
-      category: "Anxiety",
-      createdBy: "David",
-      time: Date.now(),
-      image: img,
-    },
-  ];
+  // const articleData = [
+  //   {
+  //     title: "Anxiety",
+  //     _id: "99999999999jjuju89juuu",
+  //     description:
+  //       " Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, fugiat dolores et ab quos eveniet hic sed aspernatur deleniti quaerat.",
+  //     category: "Anxiety",
+  //     createdBy: "David",
+  //     time: Date.now(),
+  //     image: img,
+  //   },
+  //   {
+  //     title: "Anxiety",
+  //     _id: "89ijuy777hjuuu77",
+  //     description:
+  //       " Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, fugiat dolores et ab quos eveniet hic sed aspernatur deleniti quaerat.y",
+  //     category: "Anxiety",
+  //     createdBy: "David",
+  //     time: Date.now(),
+  //     image: img,
+  //   },
+  // ];
   useEffect(() => {
     const getUser = async () => {
       if (!token) {
@@ -123,9 +124,10 @@ function Articles() {
         <header className="w-screen flex justify-between items-center gap-2 px-4 md:px-20 py-4 fixed z-[999] h-[80px] shadow-lg bg-blue-500 text-white bg-gradient-to-r from-blue-500 to-violet-500">
           <div className="flex items-center">
             <a href="/">
-              <h1 className="text-white font-bold text-3xl">ZenTalk</h1>
+               <img src={image} alt="Logo" className="mr-8" width={200} height={0}/>
+              {/* <h1 className="text-white font-bold text-3xl">ZenTalk</h1> */}
             </a>
-            {/* <img src="/innerglow.png" alt="Logo" className="mr-2" width={200} height={0}/> */}
+           
           </div>
           <nav className="md:flex justify-between items-center gap-4 md:gap-20 capitalize hidden">
             <a href={`/chat/${chatid}`}>chat</a>

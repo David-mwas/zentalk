@@ -71,12 +71,12 @@ function Articles() {
   }, []);
 
   useEffect(() => {
-    const unsubScribe = fetchChatMessages();
+    const unsubScribe = fetchArticlePosts();
     return () => {
       unsubScribe;
     };
   }, []);
-  const fetchChatMessages = async () => {
+  const fetchArticlePosts = async () => {
     setLoading(true);
 
     try {
@@ -218,7 +218,7 @@ function Articles() {
           <div className="absolute top-0">
             <Model
               setIsModelOpen={setIsModelOpen}
-              handleFetch={fetchChatMessages}
+              handleFetch={fetchArticlePosts}
             />
           </div>
         )}

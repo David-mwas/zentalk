@@ -55,7 +55,9 @@ function Login() {
         window.location.href = `/chat/${uid}`;
       }
       if (response?.status == 401) {
-        toast.error("Wrong user credentials", { id: notification });
+        setPassword("");
+        toast.error("Wrong email or password...", { id: notification });
+
         console.log("login failed 401");
         // window.location.href = "/chatsignup";
       }

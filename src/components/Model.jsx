@@ -43,9 +43,9 @@ function Model({ setIsModelOpen, handleFetch }) {
         toast.success("Post created successfully", { id: notify });
         const data = await response.json();
         console.log("Post created:", data);
-        handleFetch();
+        await handleFetch();
         setIsModelOpen(true);
-        window.location.reload();
+        // window.location.reload();
       } else {
         toast.error("Failed to create post", { id: notify });
         console.error("Failed to create post");

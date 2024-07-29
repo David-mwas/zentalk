@@ -1,6 +1,4 @@
 export function splitTextIntoParagraphs(text, maxWordsPerParagraph = 80) {
-  console.log(text);
-
   // Split the text into sentences
   const sentences = text?.match(/[^\.!\?]+[\.!\?]+/g) || [];
   const paragraphs = [];
@@ -32,9 +30,9 @@ export function splitTextIntoParagraphs(text, maxWordsPerParagraph = 80) {
     return sentences.join(". ");
   };
 
-  const capitalizedParagraphs = paragraphs.map((paragraph) =>
-    capitalizeFirstWord(paragraph)
-  );
+  const capitalizedParagraphs = paragraphs.map((paragraph) => {
+    capitalizeFirstWord(paragraph);
+  });
 
   return capitalizedParagraphs.join("\n\n");
 }

@@ -15,12 +15,10 @@ function Chat() {
   const [chatMessages, setChatMessages] = useState([]);
   const { getItem, clearAuthToken } = useAuthToken();
   const { token, chatid } = getItem();
+  const promptRef = useRef(null);
   // console.log(token,chatid);
   const [dataItem, setData] = useState();
-  const txt = useTypingEffect(
-    "Hello! Welcome to our mental health support chat. I am a mindful assistant here to listen and provide support on any mental health concerns you may have. Please feel free to share your thoughts and experiences, and I will do my best to assist you on your journey towards well-being.",
-    10
-  );
+
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: "smooth" });
@@ -100,6 +98,19 @@ function Chat() {
       });
       return;
     }
+    // const greetings = "Hi" || "Hello" || "Hey";
+    if (
+      prompt.matchAll("Hi".toLowerCase()) ||
+      prompt.matchAll("Hello".toLowerCase()) ||
+      prompt.matchAll("Hey".toLowerCase())
+    ) {
+      const newPrompt = `${prompt} ${
+        ", I am " + !dataItem?.username ? "" : dataItem?.username
+      }`;
+      return alert(newPrompt);
+    } else {
+      return alert("nnnn");
+    }
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/chat/${chatid}/geminichat`,
@@ -131,11 +142,33 @@ function Chat() {
       toast.error(error.message, { id: notification });
     }
   };
+  useEffect(() => {
+    adjustTextAreaHeight();
+  }, []);
 
+  const adjustTextAreaHeight = (maxHeight = 200) => {
+    const textArea = promptRef.current;
+    if (textArea) {
+      textArea.style.height = "auto";
+      if (textArea.scrollHeight > maxHeight) {
+        textArea.style.height = `${maxHeight}px`;
+      } else {
+        textArea.style.height = `${textArea.scrollHeight}px`;
+      }
+    }
+  };
+
+  const txt = useTypingEffect(
+    `Hello ${
+      !dataItem?.username ? "!" : dataItem?.username.toUpperCase() + ","
+    } Welcome to our mental health support chat. I am a mindful assistant here to listen and provide support on any mental health concerns you may have. Please feel free to share your thoughts and experiences, and I will do my best to assist you on your journey towards well-being.`,
+    2
+  );
+  // console.log(dataItem?.username, txt);
   return (
     <>
       <Toaster />
-      {token !== "undefined" && token !== null ? (
+      {token !== "undefined" && token !== null && token !== undefined ? (
         <div className="justify-between flex flex-col h-screen w-screen">
           <ChatNav name={dataItem?.username} />
           <div className="flex flex-1 flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch pt-[130px] md:px-[150px] mb-4">
@@ -168,7 +201,13 @@ function Chat() {
           <div className="shadow-lg shadow-black px-4 pt-4 py-4 sm:mb-0 bg-[#e9f1ff] md:px-[150px]">
             <form className="relative flex" onSubmit={handleSubmit}>
               <textarea
-                onChange={(e) => setPrompt(e.target.value)}
+                ref={promptRef}
+                wrap="true"
+                // rows={3}
+                onChange={(e) => {
+                  setPrompt(e.target.value);
+                  adjustTextAreaHeight();
+                }}
                 value={prompt}
                 id="userSendMessage"
                 type="text"

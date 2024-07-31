@@ -15,7 +15,7 @@ function CommunityPage() {
   //   const chatid = localStorage?.getItem("chatId");
   const { clearAuthToken } = useAuthToken();
   const [data, setData] = useState();
-  const [article, setArticle] = useState();
+  const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const openNav = () => {
@@ -63,7 +63,7 @@ function CommunityPage() {
           setLoading(false);
 
           const data = await response.json();
-          console.log(data);
+          console.log(data.description);
           setArticle(data);
         } else {
           setIsLoading(false);
@@ -85,17 +85,27 @@ function CommunityPage() {
   };
 
   // const paragraphs = splitTextIntoParagraphs();
-  const formattedText = splitTextIntoParagraphs(article?.description);
-  console.log(formattedText);
+  const { description } = article;
+
+  const formattedText = splitTextIntoParagraphs(description);
+  console.log(description);
+
+  formattedText.split("\n\n").map((paragraph, index) => console.log(paragraph));
+
   return (
     <div>
       <header className="w-screen flex justify-between items-center gap-2 px-4 md:px-20 py-4 fixed z-[999] h-[80px] shadow-lg bg-blue-500 text-white">
         <div className="flex items-center">
           <a href="/">
-           <img src={image} alt="Logo" className="mr-8" width={200} height={0}/>
+            <img
+              src={image}
+              alt="Logo"
+              className="mr-8"
+              width={200}
+              height={0}
+            />
             {/* <h1 className="text-white font-bold text-3xl">ZenTalk</h1> */}
           </a>
-         
         </div>
         <nav className="hidden md:flex justify-between items-center gap-4 md:gap-20 capitalize">
           <a href={`/community/articles`}>Articles</a>
@@ -187,7 +197,7 @@ function CommunityPage() {
               {formattedText.split("\n\n").map((paragraph, index) => (
                 <p
                   key={index}
-                  clasName="text-base leading-relaxed font-sans text-gray-800 "
+                  className="text-base leading-relaxed font-sans text-gray-800 "
                 >
                   {paragraph}
                 </p>

@@ -10,7 +10,7 @@ import { FaArrowDown } from "react-icons/fa";
 
 function Chat() {
   const [isLoading, setIsLoading] = useState(false);
-  const [prompt, setPrompt] = useState("");
+  let [prompt, setPrompt] = useState("");
   const scrollRef = useRef(null);
   const [chatMessages, setChatMessages] = useState([]);
   const { getItem, clearAuthToken } = useAuthToken();
@@ -49,7 +49,7 @@ function Chat() {
         }
         if (response.status === 401) {
           clearAuthToken();
-          // window.location.href = "/chatlogin";
+          // window.location.href = "/chatlgin";
         }
       } catch (error) {
         console.log(error);
@@ -83,10 +83,10 @@ function Chat() {
 
     fetchChatMessages();
   }, [chatid]);
-
-  const handleSubmit = async (e) => {
+  var notification;
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const notification = toast.loading("Thinking...");
+    notification = toast.loading("Thinking...");
 
     if (!prompt) {
       toast.error("Prompt should not be empty!", { id: notification });
@@ -100,17 +100,26 @@ function Chat() {
     }
     // const greetings = "Hi" || "Hello" || "Hey";
     if (
-      prompt.matchAll("Hi".toLowerCase()) ||
-      prompt.matchAll("Hello".toLowerCase()) ||
-      prompt.matchAll("Hey".toLowerCase())
+      prompt.toLowerCase().match("Hi".toLowerCase()) ||
+      prompt.toLowerCase().match("Hello".toLowerCase()) ||
+      prompt.toLowerCase().match("Hey".toLowerCase())
     ) {
-      const newPrompt = `${prompt} ${
-        ", I am " + !dataItem?.username ? "" : dataItem?.username
+      const newPrompt = `${prompt} , I am ${
+        !dataItem?.username ? "" : dataItem?.username
       }`;
-      return alert(newPrompt);
+      // toast.success(newPrompt, {
+      //   id: notification,
+      // });
+      prompt = newPrompt;
+      sendPromt(prompt);
+      // return;
     } else {
-      return alert("nnnn");
+      // toast.success("propmt " + prompt, { id: notification });
+      sendPromt(prompt);
+      // return;
     }
+  };
+  const sendPromt = async (promt) => {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/chat/${chatid}/geminichat`,
@@ -120,7 +129,7 @@ function Chat() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            prompt: prompt,
+            prompt: promt,
           }),
         }
       );
@@ -160,7 +169,7 @@ function Chat() {
 
   const txt = useTypingEffect(
     `Hello ${
-      !dataItem?.username ? "!" : dataItem?.username.toUpperCase() + ","
+      !dataItem?.username ? "!" : dataItem?.username?.toUpperCase() + ","
     } Welcome to our mental health support chat. I am a mindful assistant here to listen and provide support on any mental health concerns you may have. Please feel free to share your thoughts and experiences, and I will do my best to assist you on your journey towards well-being.`,
     2
   );
@@ -213,7 +222,7 @@ function Chat() {
                 type="text"
                 placeholder="Write your message prompt!"
                 required={true}
-                className="w-full border border-gray-500 focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 px-4 bg-gray-200 rounded-lg py-3  md:pr-[120px] pr-[60px]"
+                className="w-full border border-gray-500 focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 px-4 bg-gray-200 rounded-xl py-3  md:pr-[120px] pr-[60px]"
               ></textarea>
               <div className="absolute right-0 items-center inset-y-0 flex gap-2">
                 <button

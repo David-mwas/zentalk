@@ -88,7 +88,7 @@ function Chat() {
     e.preventDefault();
     notification = toast.loading("Thinking...");
 
-    if (!prompt) {
+    if (!prompt?.trim()) {
       toast.error("Prompt should not be empty!", { id: notification });
       return;
     }
@@ -120,6 +120,11 @@ function Chat() {
     }
   };
   const sendPromt = async (promt) => {
+    // const formattedMessages = chatMessages?.map((message) => ({
+    //   role: message.role,
+    //   parts: [{ text: message.parts }], // Ensure parts is an array of objects with a text property
+    // }));
+    // console.log(formattedMessages)
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/chat/${chatid}/geminichat`,
@@ -130,6 +135,7 @@ function Chat() {
           },
           body: JSON.stringify({
             prompt: promt,
+            // history: formattedMessages,
           }),
         }
       );

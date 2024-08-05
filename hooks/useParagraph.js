@@ -1,9 +1,8 @@
-// console.log("text");
 export function splitTextIntoParagraphs(text, maxWordsPerParagraph = 50) {
   // Split the text into sentences
-  // console.log(text);
+
   const sentences = text?.match(/[^\.!\?]+[\.!\?]+/g) || [];
-  // console.log(sentences);
+
   const paragraphs = [];
   let currentParagraph = [];
   let wordCount = 0;
@@ -38,10 +37,5 @@ export function splitTextIntoParagraphs(text, maxWordsPerParagraph = 50) {
       return capitalizeFirstWord(paragraph);
     });
 
-  // console.log("textuu", capitalizedParagraphs().join("\n\n"));
   return capitalizedParagraphs().join("\n\n");
 }
-// const word =
-//   "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk,kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk.kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk.kkkkkkkkkkooooooooooooooooooooooooooooooooooooooooooonnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn";
-// const text = splitTextIntoParagraphs(word);
-// console.log(text);

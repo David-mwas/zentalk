@@ -39,11 +39,13 @@ function Login() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email: email,
-            password: password,
+            email: email.trim(),
+            password: password.trim(),
           }),
         }
       );
+
+      console.log(response);
       if (response?.status == 200) {
         toast.success("logged in successfully", { id: notification });
         console.log("logged in successfully");
@@ -56,14 +58,25 @@ function Login() {
       }
       if (response?.status == 401) {
         setPassword("");
-        toast.error("Wrong email or password...", { id: notification });
+        toast.error("Unauthorized, Wrong email or password...", {
+          id: notification,
+        });
 
         console.log("login failed 401");
         // window.location.href = "/chatsignup";
       }
+      if (
+        (response.status == 500) &
+        (response.status != 200) &
+        (response.status != 401)
+      ) {
+        toast.error("Server Error", { id: notification });
+      }
     } catch (error) {
-      toast.error("Error", { id: notification });
+      toast.error("Server Error", { id: notification });
       console.error(error);
+    } finally {
+      // toast.dismiss(notification);
     }
   };
   const getUser = async (token) => {

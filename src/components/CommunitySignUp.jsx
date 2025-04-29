@@ -38,8 +38,6 @@ const SignUp = () => {
     // Password validation
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
     if (!passwordRegex.test(password)) {
-      setPassword("");
-      setConfirmPassword("");
       setPasswordError(
         "Password must contain at least one uppercase letter, one lowercase letter, one digit, and be at least 8 characters long."
       );
@@ -64,10 +62,10 @@ const SignUp = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: userName,
-            email: email,
-            password: password,
-            confirm_password: confirmPassword,
+            username: userName.trim(),
+            email: email.trim(),
+            password: password.trim(),
+            confirm_password: confirmPassword.trim(),
           }),
         }
       );
@@ -78,11 +76,24 @@ const SignUp = () => {
         });
         window.location.href = "/communitylogin";
       }
+      if (
+        (response.status == 500) &
+        (response.status != 200) &
+        (response.status != 401)
+      ) {
+        toast.error("Server Error", { id: notification });
+      }
     } catch (error) {
-      toast.error("Error", {
+      toast.error("Server Error", {
         id: notification,
       });
       console.error(error);
+    } finally {
+      setUserName("");
+      setPassword("");
+      setConfirmPassword("");
+      setEmail("");
+      setPasswordError("");
     }
   };
   const showPassword = () => {
@@ -131,6 +142,7 @@ const SignUp = () => {
                   onChange={(e) => {
                     setUserName(e.target.value);
                   }}
+                  value={userName}
                   type="Name"
                   autoComplete="none"
                   required
@@ -144,6 +156,7 @@ const SignUp = () => {
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
+                  value={email}
                   type="email"
                   autoComplete="none"
                   required
@@ -156,6 +169,7 @@ const SignUp = () => {
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
+                  value={password}
                   type={!isOpen ? "password" : "text"}
                   autoComplete="none"
                   required
@@ -184,6 +198,7 @@ const SignUp = () => {
                   onChange={(e) => {
                     setConfirmPassword(e.target.value);
                   }}
+                  value={confirmPassword}
                   type={!isCPOpen ? "password" : "text"}
                   autoComplete="none"
                   required

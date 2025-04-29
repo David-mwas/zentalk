@@ -6,7 +6,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isCPOpen,setIsCPOpen]=useState(false)
+  const [isCPOpen, setIsCPOpen] = useState(false);
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,12 +20,12 @@ const SignUp = () => {
       toast.error("All fields are required", { id: notification });
       return;
     }
-     const emailRegex =
-       /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-     if (!emailRegex.test(email)) {
-       toast.error(email + " is invalid email address", { id: notification });
-       return;
-     }
+    const emailRegex =
+      /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if (!emailRegex.test(email)) {
+      toast.error(email + " is invalid email address", { id: notification });
+      return;
+    }
     if (password !== confirmPassword) {
       // setPassword("");
       // setConfirmPassword("");
@@ -64,10 +64,10 @@ const SignUp = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: userName,
-            email: email,
-            password: password,
-            confirm_password: confirmPassword,
+            username: userName.trim(),
+            email: email.trim(),
+            password: password.trim(),
+            confirm_password: confirmPassword.trim(),
           }),
         }
       );
@@ -80,11 +80,24 @@ const SignUp = () => {
         createChat(userId);
         window.location.href = "/chatlogin";
       }
+      if (
+        (response.status == 500) &
+        (response.status != 200) &
+        (response.status != 401)
+      ) {
+        toast.error("Server Error", { id: notification });
+      }
     } catch (error) {
       toast.error("Error", {
         id: notification,
       });
       console.error(error);
+    } finally {
+      setUserName("");
+      setPassword("");
+      setConfirmPassword("");
+      setEmail("");
+      setPasswordError("");
     }
   };
 
@@ -164,6 +177,7 @@ const SignUp = () => {
                   </label>
                   <input
                     onChange={(e) => setUserName(e.target.value)}
+                    value={userName}
                     type="Name"
                     autoComplete="none"
                     required
@@ -181,6 +195,7 @@ const SignUp = () => {
                   <input
                     onChange={(e) => setEmail(e.target.value)}
                     type="email"
+                    value={email}
                     autoComplete="none"
                     required
                     className="appearance-none rounded-none relative block w-full py-2 px-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md mb-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 small:text-sm"
@@ -197,6 +212,7 @@ const SignUp = () => {
                   <input
                     onChange={(e) => setPassword(e.target.value)}
                     type={!isOpen ? "password" : "text"}
+                    value={password}
                     autoComplete="none"
                     required
                     className="appearance-none rounded-none relative block w-full py-2 px-2 border border-gray-300 placeholder-gray-500 text-gray-900 mb-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 small:text-sm"
@@ -228,7 +244,8 @@ const SignUp = () => {
                   </label>
                   <input
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                     type={!isCPOpen ? "password" : "text"}
+                    type={!isCPOpen ? "password" : "text"}
+                    value={confirmPassword}
                     autoComplete="none"
                     required
                     className="appearance-none rounded-none relative block w-full py-2 px-2 border border-gray-300 placeholder-gray-500 text-gray-900 mb-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 small:text-sm"

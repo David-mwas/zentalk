@@ -40,8 +40,8 @@ function Login() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email: email,
-            password: password,
+            email: email.trim(),
+            password: password.trim(),
           }),
         }
       );
@@ -58,6 +58,13 @@ function Login() {
       if (response.status == 401) {
         toast.error("Wrong user credentials", { id: notify });
         console.log("logged in successfully");
+      }
+      if (
+        (response.status == 500) &
+        (response.status != 200) &
+        (response.status != 401)
+      ) {
+        toast.error("Server Error", { id: notify });
       }
     } catch (error) {
       toast.error("Error", { id: notify });

@@ -1,29 +1,12 @@
-import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
+
 import { FaUser } from "react-icons/fa";
 import { convertDateTime } from "../../hooks/useDateTime";
-
 function SingleArticle({ article }) {
-  const [parse, setParse] = useState(null); // State to hold the parser function
-
-  useEffect(() => {
-    const loadParser = async () => {
-      const { default: parser } = await import("html-react-parser");
-      setParse(() => parser); // Set the parser function in state
-    };
-
-    loadParser();
-  }, []);
-
-  // Slice the description to show the first 100 characters and add ellipsis
-  const truncatedDescription =
-    article?.description.length > 100
-      ? article.description.slice(0, 80) + "..."
-      : article.description;
-
+  console.log(article);
   return (
-    <div className="bg-white rounded-lg w-full shadow-sm shadow-black h-[340px hover:scale-105">
-      <div className="bg-gray-300 h-[180px]">
+    <article className="bg-white rounded-lg w-full shadow-sm shadow-black hover:scale-105 ">
+      <div className="bg-gray-300 h-[200px]">
         <img
           src={article?.image}
           alt="image"
@@ -35,44 +18,30 @@ function SingleArticle({ article }) {
           <FaUser className="w-8 h-8 text-gray-500" />
           <p className="text-blue-500 ">
             by{" "}
-            <span className="capitalize font-semibold">
+            <span className="capitalize font-semibold text-lg">
               {article?.createdBy}
             </span>
           </p>
         </div>
         <div>
-          <p className="text-blue-500 font-semibold pt-2 ">{article?.title}</p>
-          <p className="text-sm font-semibold">
+          <p className="text-blue-500 font-semibold pt-2 capitalize text-2xl">
+            {article?.title}
+          </p>
+          <p className="text-sm font-semibold m-2">
             {convertDateTime(article?.time)}
           </p>
         </div>
       </div>
       <div className="px-2 py-2">
         <p>
-          {/* Use html-react-parser to safely parse the truncated HTML content */}
-          {parse ? (
-            <span>{parse(truncatedDescription)}</span>
-          ) : (
-            <span>{truncatedDescription}</span>
-          )}{" "}
+          {article?.description?.slice(0, 200)}...{" "}
           <span className="text-blue-500 font-semibold">
             <a href={`/community/articles/${article?._id}`}>Read more</a>
           </span>
         </p>
       </div>
-    </div>
+    </article>
   );
 }
-SingleArticle.propTypes = {
-  article: PropTypes.shape({
-    description: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    createdBy: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired,
-    _id: PropTypes.string.isRequired,
-  }).isRequired,
-};
 
 export default SingleArticle;
-
